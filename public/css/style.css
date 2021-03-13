@@ -35,7 +35,8 @@ a {
 	color: #000000;
 	border: 0;
 	font-size: 17px;
-  background: #00ff33;
+  background: #00ff33af;
+  border-radius: 2px;
 }
 
 #btn-join-chat {
@@ -45,10 +46,9 @@ a {
   height: 50px;
   border: 0;
   padding: 0 16px;
-  width: 15rem;
+  width: 100%;
   color: black;
   margin-top: 16px;
-  transition: background-color 0.2s;
 }
 
 /* Join Page */
