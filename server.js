@@ -16,6 +16,16 @@ console.log(__dirname)
 
 io.on('connection', socket => {
   console.log('New WS connection...')
+
+  socket.emit('message', 'Welcome to chat')
+
+  //Show a message when user connects, execept the user thats connecting 
+  socket.broadcast.emit('message', 'A user has joined the chat ');
+  
+  //Run when user disconnects
+  socket.on('disconnect', () => {
+    io.emit('message', 'A user has left')
+  })
 })
 
 
