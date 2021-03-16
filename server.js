@@ -26,7 +26,12 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     io.emit('message', 'A user has left')
   })
+
+  // Listen for chat messages
+  socket.on('chatMessage', msg => {
+    console.log(msg);
+  })
 })
 
 
-server.listen(3333, () => console.log('Server runinh on port: 3333!'))
+server.listen(3333, () => console.log('Server runing on port: 3333!'))
