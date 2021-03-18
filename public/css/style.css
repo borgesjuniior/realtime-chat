@@ -171,9 +171,10 @@ input:focus {
 
 .chat-messages {
   background-image: url("../images/chat-wallpaper.jpg");
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
 	padding: 30px;
+	min-height: 500px;
 	max-height: 500px;
 	overflow-y: scroll;
 }

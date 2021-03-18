@@ -15,8 +15,6 @@ console.log(__dirname)
 //Run when client connect
 
 io.on('connection', socket => {
-  console.log('New WS connection...')
-
   socket.emit('message', 'Welcome to chat')
 
   //Show a message when user connects, execept the user thats connecting 
@@ -29,7 +27,7 @@ io.on('connection', socket => {
 
   // Listen for chat messages
   socket.on('chatMessage', msg => {
-    console.log(msg);
+    io.emit('message', msg)
   })
 })
 
