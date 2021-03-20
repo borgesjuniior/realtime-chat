@@ -6,6 +6,7 @@ const app = express();
 const server = http.createServer(app);
 
 const formatMessages = require('./utils/messages');
+const { userJoin, getCurrentUser } = require('./utils/users');
 
 const io = socketIo(server);
 
@@ -18,19 +19,24 @@ const botName = 'chatBot';
 //Run when client connect
 
 io.on('connection', socket => {
-  socket.emit('message', formatMessages(botName, 'Welcome to chat'))
+  socket.on('joinRoom', ({username, room}) => {
+    const user = userJoin(socket.id, username, room)
 
-  //Show a message when user connects, execept the user thats connecting 
-  socket.broadcast.emit('message', formatMessages(botName, 'A user has joined the chat '));
-  
-  //Run when user disconnects
-  socket.on('disconnect', () => {
-    io.emit('message', formatMessages(botName, 'A user has left'))
+    socket.join(user.room);
+    socket.emit('message', formatMessages(botName, 'Welcome to chat'))
+
+    //Show a message when user connects, execept the user thats connecting 
+    socket.broadcast.to(user.room).emit('message', formatMessages(botName, `${user.username} has joined the chat`));
   })
 
   // Listen for chat messages
   socket.on('chatMessage', msg => {
     io.emit('message', msg)
+  })
+
+  //Run when user disconnects
+  socket.on('disconnect', () => {
+    io.emit('message', formatMessages(botName, 'A user has left'))
   })
 })
 
