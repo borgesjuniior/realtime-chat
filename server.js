@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 
 const formatMessages = require('./utils/messages');
-const { userJoin, getCurrentUser, userLeave } = require('./utils/users');
+const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users');
 
 const io = socketIo(server);
 
@@ -27,6 +27,12 @@ io.on('connection', socket => {
 
     //Show a message when user connects, execept the user thats connecting 
     socket.broadcast.to(user.room).emit('message', formatMessages(botName, `${user.username} has joined the chat`));
+
+    //Send users and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    })
   })
 
   // Listen for chat messages
@@ -43,6 +49,11 @@ io.on('connection', socket => {
     if(user) {
       io.to(user.room).emit('message', formatMessages(botName, `${user.username} has left`));
     }
+
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    })
    
   })
 })
