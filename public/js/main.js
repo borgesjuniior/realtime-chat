@@ -58,3 +58,14 @@ function outPutMessage(message) {
 function outPutRoomName(room) {
   roomName.innerHTML = room;
 }
+
+// Add users to DOM
+function outPutUsers(users) {
+  console.log(users)
+  userList.innerHTML = '';
+  users.forEach((user) => {
+    const li = document.createElement('li');
+    li.innerText = user.username;
+    userList.appendChild(li);
+  });
+}
